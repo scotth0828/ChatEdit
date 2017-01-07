@@ -27,20 +27,32 @@ public class Handler implements Listener {
 		if (type.equals(""))
 			type = "global";
 
+		boolean targeted = false;
+
 		for (Player pl : e.getRecipients()) {
+
+			if (rawMessage.toLowerCase().contains(pl.getDisplayName().toLowerCase()))
+				targeted = true;
 
 			String PLType = main.users.getData().getString(pl.getUniqueId() + ".type");
 
 			if (PLType.equals(""))
 				PLType = "global";
 
-			if (PLType.equals("global")) {
-				pl.sendMessage(fMessage);
-			} else if (PLType.equals("nearby")) {
-				if (pl.getWorld() == e.getPlayer().getWorld() && pl.getPlayer().getLocation().distance(e.getPlayer().getLocation()) <= main.getConfig()
-						.getInt("ChatEdit.Default.Radius")) {
+			if (!targeted) {
+				if (PLType.equals("global")) {
 					pl.sendMessage(fMessage);
+				} else if (PLType.equals("nearby")) {
+					if (pl.getWorld() == e.getPlayer().getWorld()
+							&& pl.getPlayer().getLocation().distance(e.getPlayer().getLocation()) <= main.getConfig()
+									.getInt("ChatEdit.Default.Radius")) {
+						pl.sendMessage(fMessage);
+					}
 				}
+			} else {
+				fMessage = String.format(e.getFormat(), e.getPlayer().getDisplayName(), ChatColor.GOLD + rawMessage);
+				pl.sendMessage(fMessage);
+				targeted = false;
 			}
 
 		}

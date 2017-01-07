@@ -66,11 +66,12 @@ public class Main extends JavaPlugin {
 
 			}
 
-			if (cmd.getName().equalsIgnoreCase("ChatNearbyRadius")) {
+			if (cmd.getName().equalsIgnoreCase("ChatR")) {
 
 				if (args.length > 1) {
 					player.sendMessage(ChatColor.YELLOW + "[ChatEdit]" + ChatColor.RED
-							+ " You must input the radius you want, the default is " + getConfig().getString("ChatEdit.Default.Radius") + ".");
+							+ " You must input the radius you want, the default is "
+							+ getConfig().getString("ChatEdit.Default.Radius") + ".");
 					return false;
 				} else if (args.length == 0) {
 					player.sendMessage(
@@ -95,11 +96,49 @@ public class Main extends JavaPlugin {
 
 			}
 
-			if (cmd.getName().equalsIgnoreCase("ChatEditReload") && player.hasPermission("ChatEdit.reload")) {
+			if (cmd.getName().equalsIgnoreCase("ChatEditReload")) {
 
 				loadConfiguration();
 				player.sendMessage(ChatColor.YELLOW + "[ChatEdit]" + ChatColor.GREEN + " Reloaded Successfully!");
 
+				return true;
+			}
+
+			if (cmd.getName().equalsIgnoreCase("ChatF")) {
+				if (args.length > 2 || args.length < 2) {
+					return false;
+				}
+
+				String target = args[0];
+				String type = args[1].toLowerCase();
+
+				for (Player p : getServer().getOnlinePlayers()) {
+					if (p.getDisplayName().equals(target)) {
+
+						if (!type.equals("global") && !type.equals("nearby") && !type.equals("off")) {
+							player.sendMessage(ChatColor.YELLOW + "[ChatEdit]" + ChatColor.RED
+									+ " Your must either use global, nearby, or off as a type!");
+							return true;
+						}
+
+						users.getData().set(p.getUniqueId() + ".type", type);
+						player.sendMessage(
+								ChatColor.YELLOW + "[ChatEdit]" + ChatColor.GREEN + " You have set " + ChatColor.GOLD
+										+ p.getDisplayName() + ChatColor.GREEN + " to " + ChatColor.BLUE + type);
+						p.sendMessage(ChatColor.YELLOW + "[ChatEdit]" + ChatColor.GREEN
+								+ " Your chat type has been set to " + ChatColor.BLUE + type);
+						return true;
+					} else {
+						if (player.getDisplayName().equals(target)) {
+							player.sendMessage(ChatColor.YELLOW + "[ChatEdit]" + ChatColor.RED
+									+ " Change your type using the proper command!");
+						} else {
+							player.sendMessage(
+									ChatColor.YELLOW + "[ChatEdit]" + ChatColor.RED + " That is not a valid player!");
+						}
+					}
+					return true;
+				}
 				return true;
 			}
 		}
