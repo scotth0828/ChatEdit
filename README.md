@@ -13,8 +13,8 @@
 ```/ChatEditReload : Reloads the plugin configuration and user data.```  
   
 **Permissions:**  
-```ChatEdit.forceType```  
-```ChatEdit.reload```  
+ChatEdit.forceType  
+ChatEdit.reload  
   
 **Plugin Download:**  
 http://www.mediafire.com/file/x2lojd7ng42dbhg/ChatEdit.jar  
