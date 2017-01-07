@@ -70,7 +70,7 @@ public class Main extends JavaPlugin {
 
 				if (args.length > 1) {
 					player.sendMessage(ChatColor.YELLOW + "[ChatEdit]" + ChatColor.RED
-							+ " You must input the radius you want, the default is 200.");
+							+ " You must input the radius you want, the default is " + getConfig().getString("ChatEdit.Default.Radius") + ".");
 					return false;
 				} else if (args.length == 0) {
 					player.sendMessage(
