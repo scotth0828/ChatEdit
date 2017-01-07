@@ -1,0 +1,15 @@
+name: ChatEdit
+version: 1.0
+description: Allows the user to view chat globally, nearby, or not at all.
+main: me.scotth0828.ChatEdit.Main.Main
+commands:
+  ChatType:
+    description: Sets what type of chat you'd like to use either being global, nearby, or off.
+    usage: /<command> <value>
+  ChatNearbyRadius:
+    description: Sets the radius for when chat is set to nearby. The default is set to 200.
+    usage: /<command> <value>
+  ChatEditReload:
+    description: Reloads the plugin configuration and user data.
+    usage: /<command>
+    permission: ChatEdit.reload
