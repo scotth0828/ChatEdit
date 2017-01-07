@@ -128,17 +128,9 @@ public class Main extends JavaPlugin {
 						p.sendMessage(ChatColor.YELLOW + "[ChatEdit]" + ChatColor.GREEN
 								+ " Your chat type has been set to " + ChatColor.BLUE + type);
 						return true;
-					} else {
-						if (player.getDisplayName().equals(target)) {
-							player.sendMessage(ChatColor.YELLOW + "[ChatEdit]" + ChatColor.RED
-									+ " Change your type using the proper command!");
-						} else {
-							player.sendMessage(
-									ChatColor.YELLOW + "[ChatEdit]" + ChatColor.RED + " That is not a valid player!");
-						}
 					}
-					return true;
 				}
+				player.sendMessage(ChatColor.YELLOW + "[ChatEdit]" + ChatColor.RED + " That is not a valid player!");
 				return true;
 			}
 		}
