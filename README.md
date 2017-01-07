@@ -17,4 +17,4 @@ ChatEdit.forceType
 ChatEdit.reload  
   
 **Plugin Download:**  
-http://www.mediafire.com/file/x2lojd7ng42dbhg/ChatEdit.jar  
+https://www.mediafire.com/folder/9o86uqob06m7a/ChatEdit%20Folder  
