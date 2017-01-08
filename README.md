@@ -10,11 +10,14 @@
 ```/ChatType <value> : Sets what type of chat you'd like to use either being global, nearby, or off.```  
 ```/ChatR <value> : Sets the radius for when chat is set to nearby. The default is set to 200.```  
 ```/ChatF <player> <value> : Forces the specified player's chat type.```  
+```/ChatAdmin : Allows the user to see all chat types.```  
+```/ChatL : Lists current chat types available.```  
 ```/ChatEditReload : Reloads the plugin configuration and user data.```  
   
 **Permissions:**  
 ChatEdit.forceType  
+ChatEdit.ChatAdmin  
 ChatEdit.reload  
   
 **Plugin Download:**  
-https://www.mediafire.com/folder/9o86uqob06m7a/ChatEdit%20Folder  
+https://www.mediafire.com/folder/9o86uqob06m7a/ChatEdit%20Folder  	

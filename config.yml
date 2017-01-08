@@ -1,0 +1,9 @@
+# ChatEdit Config
+# You must have atleast one chat type set
+# The first chat type will be the default chat type that is set
+
+ChatEdit:
+  ChatType:
+  - global
+  Default:
+    Radius: 200

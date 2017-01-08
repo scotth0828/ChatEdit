@@ -1,5 +1,7 @@
 package me.scotth0828.ChatEdit.Main;
 
+import java.util.List;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -33,8 +35,8 @@ public class Main extends JavaPlugin {
 			if (cmd.getName().equalsIgnoreCase("ChatType")) {
 
 				if (args.length > 1) {
-					player.sendMessage(ChatColor.YELLOW + "[ChatEdit]" + ChatColor.RED
-							+ " You must either input global, nearby, or off as the value.");
+					player.sendMessage(
+							ChatColor.YELLOW + "[ChatEdit]" + ChatColor.RED + " You must input one of the chat types.");
 					return false;
 				} else if (args.length == 0) {
 					player.sendMessage(
@@ -43,11 +45,7 @@ public class Main extends JavaPlugin {
 					return true;
 				}
 
-				if (args[0].toLowerCase().equals("global")) {
-					users.getData().set(player.getUniqueId() + ".type", "global");
-					player.sendMessage(ChatColor.YELLOW + "[ChatEdit]" + ChatColor.GREEN
-							+ " You will now be able to see all chat messages!");
-				} else if (args[0].toLowerCase().equals("nearby")) {
+				if (args[0].toLowerCase().equals("nearby")) {
 					users.getData().set(player.getUniqueId() + ".type", "nearby");
 					player.sendMessage(ChatColor.YELLOW + "[ChatEdit]" + ChatColor.GREEN
 							+ " You will now be able to see all nearby chat messages within your set radius!");
@@ -56,8 +54,20 @@ public class Main extends JavaPlugin {
 					player.sendMessage(
 							ChatColor.YELLOW + "[ChatEdit]" + ChatColor.GREEN + " You will now see no chat messages!");
 				} else {
+
+					List<String> types = getConfig().getStringList("ChatEdit.ChatType");
+
+					for (String s : types) {
+						if (args[0].toLowerCase().equals(s)) {
+							users.getData().set(player.getUniqueId() + ".type", s);
+							player.sendMessage(ChatColor.YELLOW + "[ChatEdit]" + ChatColor.GREEN
+									+ " You will now be able to see all chat messages in your current chat type!");
+							return true;
+						}
+					}
+
 					player.sendMessage(ChatColor.YELLOW + "[ChatEdit]" + ChatColor.RED
-							+ " That chat type does not exist! Either use global, nearby, or off as a value!");
+							+ " That chat type does not exist! Use one of the chat types as a value!");
 				}
 
 				users.saveData();
@@ -97,8 +107,7 @@ public class Main extends JavaPlugin {
 			}
 
 			if (cmd.getName().equalsIgnoreCase("ChatEditReload")) {
-
-				loadConfiguration();
+				reloadConfiguration();
 				player.sendMessage(ChatColor.YELLOW + "[ChatEdit]" + ChatColor.GREEN + " Reloaded Successfully!");
 
 				return true;
@@ -115,10 +124,22 @@ public class Main extends JavaPlugin {
 				for (Player p : getServer().getOnlinePlayers()) {
 					if (p.getDisplayName().equals(target)) {
 
-						if (!type.equals("global") && !type.equals("nearby") && !type.equals("off")) {
-							player.sendMessage(ChatColor.YELLOW + "[ChatEdit]" + ChatColor.RED
-									+ " Your must either use global, nearby, or off as a type!");
-							return true;
+						List<String> types = getConfig().getStringList("ChatEdit.ChatType");
+
+						types.add("nearby");
+						types.add("off");
+
+						for (int i = 0; i < types.size(); i++) {
+
+							player.sendMessage(i + " " + types.size() + " " + types.get(i) + " " + type);
+
+							if (type.equals(types.get(i))) {
+								break;
+							} else if (i == types.size() - 1 && !type.equals(types.get(i))) {
+								player.sendMessage(ChatColor.YELLOW + "[ChatEdit]" + ChatColor.RED
+										+ " You must input one of the chat types.");
+								return true;
+							}
 						}
 
 						users.getData().set(p.getUniqueId() + ".type", type);
@@ -131,6 +152,35 @@ public class Main extends JavaPlugin {
 					}
 				}
 				player.sendMessage(ChatColor.YELLOW + "[ChatEdit]" + ChatColor.RED + " That is not a valid player!");
+				return true;
+			}
+
+			if (cmd.getName().equalsIgnoreCase("ChatAdmin")) {
+				if (users.getData().getBoolean(player.getUniqueId() + ".chatadmin")) {
+					users.getData().set(player.getUniqueId() + ".chatadmin", false);
+					player.sendMessage(ChatColor.YELLOW + "[ChatEdit]" + ChatColor.GREEN
+							+ " You will now only see your current chat type!");
+				} else {
+					users.getData().set(player.getUniqueId() + ".chatadmin", true);
+					player.sendMessage(
+							ChatColor.YELLOW + "[ChatEdit]" + ChatColor.GREEN + " You will now view all chat types!");
+				}
+				return true;
+			}
+
+			if (cmd.getName().equalsIgnoreCase("ChatL")) {
+				List<String> types = getConfig().getStringList("ChatEdit.ChatType");
+
+				types.add("nearby");
+				types.add("off");
+
+				player.sendMessage(
+						ChatColor.GREEN + "----------" + ChatColor.RED + "Chat Types" + ChatColor.GREEN + "----------");
+
+				for (String s : types) {
+					player.sendMessage(ChatColor.GOLD + s);
+				}
+
 				return true;
 			}
 		}
@@ -148,12 +198,14 @@ public class Main extends JavaPlugin {
 	}
 
 	public void loadConfiguration() {
-		getConfig().addDefault("ChatEdit.Default.ChatType", "global");
-		getConfig().addDefault("ChatEdit.Default.Radius", 200);
-		getConfig().options().copyDefaults(true);
-		saveConfig();
+		saveDefaultConfig();
 		users = new SettingsManager(this, "users");
 		users.saveData();
+	}
+
+	public void reloadConfiguration() {
+		this.reloadConfig();
+		users.reloadData();
 	}
 
 }

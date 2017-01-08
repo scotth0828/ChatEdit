@@ -1,11 +1,11 @@
 name: ChatEdit
 version: 1.0
 author: Scott
-description: Allows the user to view chat globally, nearby, or not at all.
+description: Allows the user to view chat globally, nearby, not at all or in other predefined chat types.
 main: me.scotth0828.ChatEdit.Main.Main
 commands:
   ChatType:
-    description: Sets what type of chat you'd like to use either being global, nearby, or off.
+    description: Sets what type of chat you'd like to use from the current chat types available.
     usage: /<command> <value>
     aliases: [ct]
   ChatR:
@@ -17,6 +17,15 @@ commands:
     usage: /<command> <player> <value>
     aliases: [cf]
     permission: ChatEdit.forceType
+  ChatAdmin:
+    description: Allows the user to see all chat types.
+    usage: /<command>
+    aliases: [ca]
+    permission: ChatEdit.ChatAdmin
+  ChatL:
+    description: Lists current chat types available.
+    usage: /<command>
+    aliases: [cl]
   ChatEditReload:
     description: Reloads the plugin configuration and user data.
     usage: /<command>
