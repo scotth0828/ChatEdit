@@ -67,7 +67,7 @@ public class Handler implements Listener {
 						}
 					}
 				} else {
-					pl.playSound(pl.getLocation(), Sound.LEVEL_UP, 3.0F, 0.5F);
+					pl.playSound(pl.getLocation(), Sound.ORB_PICKUP, 3.0F, 0.5F);
 					fMessage = String.format(e.getFormat(), e.getPlayer().getDisplayName(),
 							ChatColor.GOLD + rawMessage);
 					pl.sendMessage(fMessage);
