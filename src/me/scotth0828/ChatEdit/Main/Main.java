@@ -1,10 +1,16 @@
 package me.scotth0828.ChatEdit.Main;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import net.md_5.bungee.api.ChatColor;
@@ -61,7 +67,7 @@ public class Main extends JavaPlugin {
 						if (args[0].toLowerCase().equals(s)) {
 							users.getData().set(player.getUniqueId() + ".type", s);
 							player.sendMessage(ChatColor.YELLOW + "[ChatEdit]" + ChatColor.GREEN
-									+ " You will now be able to see all chat messages in your current chat type!");
+									+ " You will now be able to see all chat messages in " + ChatColor.BLUE + s);
 							return true;
 						}
 					}
@@ -169,23 +175,46 @@ public class Main extends JavaPlugin {
 			}
 
 			if (cmd.getName().equalsIgnoreCase("ChatL")) {
-				List<String> types = getConfig().getStringList("ChatEdit.ChatType");
+				List<String> types = getTypes();
 
-				types.add("nearby");
-				types.add("off");
+				ItemStack t = new ItemStack(Material.ENCHANTED_BOOK);
+				ItemMeta meta = t.getItemMeta();
 
-				player.sendMessage(
-						ChatColor.GREEN + "----------" + ChatColor.RED + "Chat Types" + ChatColor.GREEN + "----------");
+				Inventory inv = Bukkit.createInventory(null, 36, ChatColor.BLUE + "Chat Types");
 
-				for (String s : types) {
-					player.sendMessage(ChatColor.GOLD + s);
+				for (int i = 0; i < types.size(); i++) {
+					meta.setDisplayName(ChatColor.DARK_PURPLE + types.get(i));
+					List<String> r = new ArrayList<>();
+					int amount = 0;
+					int online = getServer().getOnlinePlayers().size();
+					for (Player p : getServer().getOnlinePlayers()) {
+						if (users.getData().getString(p.getUniqueId() + ".type").equals(types.get(i))) {
+							amount++;
+						}
+					}
+					if (!types.get(i).equals("nearby") && !types.get(i).equals("off"))
+						r.add(amount + "/" + online + " in chat");
+					meta.setLore(r);
+					t.setItemMeta(meta);
+					inv.setItem(i, t);
 				}
+
+				player.openInventory(inv);
 
 				return true;
 			}
 		}
 
 		return false;
+	}
+
+	public List<String> getTypes() {
+		List<String> types = getConfig().getStringList("ChatEdit.ChatType");
+
+		types.add("nearby");
+		types.add("off");
+
+		return types;
 	}
 
 	public boolean isStringInt(String s) {
