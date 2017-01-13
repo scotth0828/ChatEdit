@@ -5,6 +5,25 @@
 ### This is a simple plugin made by me that I decided to make after someone said that they would rather have the chat turned off completely. With this plugin they are able to turn off the chat client side while everyone else is still able to view all the messages. They will also be able to set their chat to 'nearby' which will allow them to talk to those near them in a specified radius set by them using the commands below.  
   
 ### Typing someones name in your chat message you are able to target someone so that they see your message if need be.  
+
+### Typing in a color surrounded in brackets will color your text! The currently allowed colors are:
+
+- Aqua
+- Black
+- Blue
+- Darkaqua
+- Darkblue
+- DarkGray
+- DarkGreen
+- Darkpurple
+- Darkred
+- Gold
+- Gray
+- Green
+- lightpurple
+- Red
+- White
+- Yellow
   
 **Commands:**  
 ```/ChatType <value> : Sets what type of chat you'd like to use either being global, nearby, or off.```  
@@ -16,6 +35,7 @@
   
 **Permissions:**  
 ChatEdit.forceType  
+ChatEdit.Colors
 ChatEdit.ChatAdmin  
 ChatEdit.reload  
   
