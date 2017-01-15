@@ -35,7 +35,7 @@
   
 **Permissions:**  
 ChatEdit.forceType  
-ChatEdit.Colors
+ChatEdit.Colors  
 ChatEdit.ChatAdmin  
 ChatEdit.reload  
   
